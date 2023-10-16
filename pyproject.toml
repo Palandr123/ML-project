@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "ml_project"
+version = "0.1.0"
+description = ""
+authors = ["Andrey Palaev <a.palaev@innopolis.university>"]
+readme = "README.md"
+packages = [{include = "ml_project"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+torch = {url = "https://download.pytorch.org/whl/cu117/torch-2.0.1%2Bcu117-cp310-cp310-linux_x86_64.whl"}
+torchvision = {url = "https://download.pytorch.org/whl/cu117/torchvision-0.15.2%2Bcu117-cp310-cp310-linux_x86_64.whl"}
+diffusers = "^0.21.4"
+gradio = "^3.47.1"
+transformers = "^4.34.0"
+scipy = "^1.11.3"
+einops = "^0.7.0"
+ipykernel = "^6.25.2"
+accelerate = "^0.23.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
