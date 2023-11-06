@@ -283,3 +283,118 @@ def silhouette_difference(
     if L2:
         return (0.5 * (attn - tgt_attn) ** 2).mean()
     return (attn - tgt_attn).abs().mean()
+
+
+def change_centroid(
+    attn: torch.Tensor,
+    i: int,
+    tgt: Optional[torch.Tensor] = None,
+    shift: tuple[int, int] = (0.0, 0.0),
+    relative: bool = False,
+    idxs: Optional[np.ndarray[np.int64]] = None,
+    L2: bool = False,
+) -> torch.Tensor:
+    """
+    Compute and return the change in centroid between 'attn' and 'tgt' tensors for the specified
+    dimension 'i'. The centroid is calculated based on the attention scores.
+
+    Args:
+        attn: torch.Tensor - the input attention tensor.
+        i: int - the dimension along which to calculate the centroid.
+        tgt: Optional[torch.Tensor] - the target attention tensor. Defaults to None.
+        shift: tuple[int, int] - the shift to apply to the centroid, specified as a tuple of
+                                 two integers. Defaults to (0.0, 0.0).
+        relative: bool - if True, calculate the centroid relative to the target. Defaults to False.
+        idxs: Optional[np.ndarray[np.int64]] - An array of indices to consider for the centroid
+                                               calculation. Defaults to None.
+        L2: bool - if True, calculate the L2 distance between centroids. Defaults to False.
+
+    Returns: 
+        torch.Tensor - the change in centroid, which can be either the absolute mean difference or the
+        mean squared difference, depending on the value of 'L2'.
+    """
+    attn = attn[i]
+    tgt_attn = tgt[i].to(attn.device) if tgt is not None else None
+
+    if relative:
+        assert tgt_attn is not None
+    tgt_attn = tgt_attn if tgt_attn is not None else attn
+    if idxs is not None:
+        attn = attn[..., idxs]
+        tgt_attn = tgt_attn[..., idxs]
+    shift = torch.tensor(shift).to(attn.device)
+
+    obs_centroid = centroid(attn)
+    tgt_centroid = shift.reshape((1,) * (obs_centroid.ndim - shift.ndim) + shift.shape)
+    if relative:
+        tgt_centroid = centroid(tgt_attn) + tgt_centroid
+    if L2:
+        return (0.5 * (obs_centroid - tgt_centroid) ** 2).mean()
+    return (obs_centroid - tgt_centroid).abs().mean()
+
+
+def size(attn: torch.Tensor, thresh: bool = True) -> torch.Tensor:
+    """
+    Compute the size of attention weights in a tensor.
+
+    Args:
+        attn: torch.Tensor - a tensor representing attention weights, typically obtained from an attention mechanism.
+        thresh: bool - if True (default), the attention weights are normalized before computing the size. 
+                       If False, the original attention weights are used.
+
+    Returns:
+    torch.Tensor - a tensor containing the size of the attention weights. The size is computed as the mean of the attention weights 
+                   along dimensions -2 and -3. The result is reshaped to have an additional dimension.
+    """
+    if thresh:
+        attn_norm = normalized_attention(attn)
+    else:
+        attn_norm = attn.clone()
+    return attn_norm.mean((-2, -3))[..., None]
+
+
+def change_size(
+    attn: torch.Tensor,
+    i: int,
+    tgt: Optional[torch.Tensor] = None,
+    relative: bool = False,
+    shift: tuple[int] = (0.0,),
+    thresh: bool = True,
+    idxs: Optional[np.ndarray[np.int64]] = None,
+    L2: bool = False,
+) -> torch.Tensor:
+    """
+    Change the size of the attention distribution with respect to a target distribution.
+
+    Args:
+        attn: torch.Tensor - the input attention distribution.
+        i: int - the index specifying which element to operate on within the attention distribution.
+        tgt: Optional[torch.Tensor]) - the target attention distribution (optional).
+        relative: bool - whether to perform a relative size change (default is False).
+        shift: tuple[int] - the shift values for adjusting the size (default is (0.0,)).
+        thresh: bool - whether to apply a attention normalization for size calculation (default is True).
+        idxs: Optional[np.ndarray[np.int64]] - indices to consider when calculating size (optional).
+        L2: bool - whether to use the L2 loss metric for size change (default is False).
+
+    Returns:
+        torch.Tensor - the size change of the attention distribution with respect to the target, computed as the mean absolute 
+                       difference or mean squared difference (L2 loss), depending on the 'L2' parameter.
+    """
+    attn = attn[i]
+    tgt_attn = tgt[i].to(attn.device) if tgt is not None else None
+
+    if relative:
+        assert tgt_attn is not None
+    tgt_attn = tgt_attn if tgt_attn is not None else attn
+    if idxs is not None:
+        attn = attn[..., idxs]
+        tgt_attn = tgt_attn[..., idxs]
+    shift = torch.tensor(shift).to(attn.device)
+
+    size_obs = size(attn, thresh)
+    size_tgt = shift.reshape((1,) * (size_obs.ndim - shift.ndim) + shift.shape)
+    if relative:
+        size_tgt = size(tgt_attn, thresh) + size_tgt
+    if L2:
+        return (0.5 * (size_obs - size_tgt) ** 2).mean()
+    return (size_obs - size_tgt).abs().mean()
