@@ -13,7 +13,7 @@
 
 ## Examples
 "A polygonal illustration of a cat and a bunny" (move bunny to (0.9, 0.9))
-<img src="imgs/bunny_orig.jpeg" width="425"/> <img src="imgs/bunny_move1.jpeg" width="425"/> 
+<img src="imgs/bunny_orig.jpeg" width="300"/> <img src="imgs/bunny_move1.jpeg" width="300"/> 
 
 "A photo of sharks in the ocean" (move sharks to (0.1, 0.1))
 ![alt-text-1](imgs/sharks_orig.jpeg "title-1") ![alt-text-2](imgs/sharks_move2.jpeg "title-2")
