@@ -3,6 +3,7 @@
 ## Table of contents
 - [Table of contents](#table-of-contents)
 - [Installation](#installation)
+- [Project objectives](#project-objectives)
 - [Examples](#examples)
 - [Acknowledgments](#acknowledgments)
 
@@ -10,6 +11,14 @@
 1. Clone the repository
 2. Install poetry using https://python-poetry.org/docs/
 3. ```poetry install```
+
+## Project objectives
+* Develop a method for image editing with diffusion models using guidance based on cross-attention maps that is able to move and resize the objects
+* Analyze the method with respect to the following properties:
+    * Number of objects in the original image
+    * Overlap between objects in the original image
+    * The amount of clutter in the background
+
 
 ## Examples
 "A polygonal illustration of a cat and a bunny" (move bunny to (0.9, 0.9))
