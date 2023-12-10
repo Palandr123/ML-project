@@ -5,6 +5,7 @@
 - [Installation](#installation)
 - [Project objectives](#project-objectives)
 - [Examples](#examples)
+- [Discussion](#discussion)
 - [Acknowledgments](#acknowledgments)
 
 ## Installation
@@ -36,6 +37,16 @@
 "A photo of rubber ducks walking on street" (size(rubber ducks)*0.5)
 
 <img src="imgs/ducks_orig.jpeg" width="300"/> <img src="imgs/ducks_size2.jpeg" width="300"/> 
+
+## Discussion
+* The method preserves image layout and object appearances
+* The method does not preserve the image details including the clutter in the background
+* It may create new objects instead of moving existing ones
+* It may not preserve the number of objects when there are many of them
+* Fails to move the objects that take a significant portion of the image
+* May fail when the cross-attention maps are inaccurate
+* Although preserves the poses and layout of overlapped objects, their details (and sometimes appearances) may change
+
 
 ## Acknowledgments
 The Demo.ipynb is based on the following notebook: https://colab.research.google.com/drive/1SEM1R9mI9cF-aFpqg3NqHP8gN8irHuJi?usp=sharing
