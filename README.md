@@ -22,7 +22,7 @@
 
 "A photo of a bronze horse in a museum" (size(bronze horse)*2.0)
 
-<img src="imgs/horse_orig.jpeg" width="300"/> <img src="imgs/bunny_move1.jpeg" width="300"/> 
+<img src="imgs/horse_orig.jpeg" width="300"/> <img src="imgs/horse_size1.jpeg" width="300"/> 
 
 "A photo of rubber ducks walking on street" (size(rubber ducks)*0.5)
 
