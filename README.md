@@ -18,7 +18,7 @@
 
 "A photo of sharks in the ocean" (move sharks to (0.1, 0.1))
 
-<img src="imgs/sharks_orig.jpeg" width="300"/> <img src="imgs/bunny_move1.jpeg" width="300"/> 
+<img src="imgs/sharks_orig.jpeg" width="300"/> <img src="imgs/sharks_move2.jpeg" width="300"/> 
 
 "A photo of a bronze horse in a museum" (size(bronze horse)*2.0)
 
@@ -26,7 +26,7 @@
 
 "A photo of rubber ducks walking on street" (size(rubber ducks)*0.5)
 
-<img src="imgs/ducks_orig.jpeg" width="300"/> <img src="imgs/bunny_move1.jpeg" width="300"/> 
+<img src="imgs/ducks_orig.jpeg" width="300"/> <img src="imgs/ducks_size2.jpeg" width="300"/> 
 
 ## Acknowledgments
 The Demo.ipynb is based on the following notebook: https://colab.research.google.com/drive/1SEM1R9mI9cF-aFpqg3NqHP8gN8irHuJi?usp=sharing
